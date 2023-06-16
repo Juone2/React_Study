@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import classes from "./User.module.css";
 import Card from "./UI/Card";
 import Modal from "./UI/Modal";
@@ -11,7 +11,7 @@ function UserInput({ onAddUser }) {
   const nameInputRef = useRef();
   const ageInputRef = useRef();
 
-  const onSubmit = (e) => {
+  const onSubmit = useCallback((e) => {
     e.preventDefault();
 
     console.log(nameInputRef); // current always object ( prop )
@@ -39,7 +39,7 @@ function UserInput({ onAddUser }) {
     onAddUser(enteredUserName, enteredUserAge);
     nameInputRef.current.value = ""; // ref
     ageInputRef.current.value = ""; // 초기화
-  };
+  }, []);
 
   const handleError = () => {
     setError(null); // falsy
