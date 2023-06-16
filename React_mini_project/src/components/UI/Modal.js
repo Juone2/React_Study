@@ -3,23 +3,44 @@ import styled from "styled-components";
 import classes from "./Modal.module.css";
 import Card from "./Card";
 import Button from "./Button";
+import ReactDOM from "react-dom";
 
-function Modal({ title, message, onConfirm }) {
+const BackDrop = (props) => {
+  return <div className={classes.backdrop} onClick={props.onConfirm}></div>;
+};
+
+const ModalOverlay = (props) => {
   return (
-    <div>
-      <BackDrop onClick={onConfirm} />
-      <Card className={classes.modal}>
-        <Header>
-          <h2>{title}</h2>
-        </Header>
-        <Content>
-          <p>{message}</p>
-        </Content>
-        <Actions>
-          <Button onClick={onConfirm}>Okay</Button>
-        </Actions>
-      </Card>
-    </div>
+    <Card className={classes.modal}>
+      <Header>
+        <h2>{props.title}</h2>
+      </Header>
+      <Content>
+        <p>{props.message}</p>
+      </Content>
+      <Actions>
+        <Button onClick={props.onConfirm}>Okay</Button>
+      </Actions>
+    </Card>
+  );
+};
+
+function Modal(props) {
+  return (
+    <React.Fragment>
+      {ReactDOM.createPortal(
+        <BackDrop onConfirm={props.onConfirm} />,
+        document.getElementById("backdrop-root")
+      )}
+      {ReactDOM.createPortal(
+        <ModalOverlay
+          title={props.title}
+          message={props.message}
+          onConfirm={props.onConfirm}
+        />,
+        document.getElementById("overlay-root")
+      )}
+    </React.Fragment>
   );
 }
 
@@ -40,16 +61,6 @@ const Actions = styled.footer`
   padding: 1rem;
   display: flex;
   justify-content: flex-end;
-`;
-
-const BackDrop = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.75);
 `;
 
 export default Modal;
