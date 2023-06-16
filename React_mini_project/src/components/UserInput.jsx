@@ -61,14 +61,14 @@ function UserInput({ onAddUser }) {
             type="text"
             id="username"
             placeholder="이름을 입력 해 주세요"
-            ref={nameInputRef}
+            ref={nameInputRef} /* React에 의해 제어 되지 않는 컴포넌트 */
           />
           <label htmlFor="age">Age (Years)</label>
           <input
             type="number"
             id="age"
             placeholder="나이를 입력 해 주세요"
-            ref={ageInputRef}
+            ref={ageInputRef} /* React에 의해 제어 되지 않는 컴포넌트 */
           />
           <div>
             <button type="submit">Add users</button>
